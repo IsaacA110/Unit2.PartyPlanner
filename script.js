@@ -2,19 +2,15 @@ const COHORT = "2405-FTB-ET-WEB-FT";
 const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}/events/`;
 
 const state = {
-  //state = the data that is currently stored in our application
-  events: [], //state stored in empty events array
+  events: [],
 };
 
-// const guestList = document.querySelector("#guests");
 const eventList = document.querySelector("#events");
 
 const addEventForm = document.querySelector("#addEvent");
 addEventForm.addEventListener("submit", addEvent);
 
-// sync state with the API and render
 async function render() {
-  //call getEvents to fetch event data then render
   await getEvents();
   renderEvents();
 }
@@ -23,7 +19,7 @@ render();
 async function getEvents() {
   try {
     const response = await fetch(API_URL);
-    const json = await response.json(); //turns response from server to json data held in the events state array
+    const json = await response.json();
     state.events = json.data;
   } catch (error) {
     console.error(error);
@@ -32,7 +28,6 @@ async function getEvents() {
 
 function renderEvents() {
   if (!state.events.length) {
-    //if there are no events
     eventList.innerHTML = "<li>No Events.</li>";
 
     return;
@@ -48,16 +43,15 @@ function renderEvents() {
   eventList.replaceChildren(...eventCards);
 }
 
-//create new event
 async function addEvent(event) {
-  event.preventDefault(); // prevent page reload
+  event.preventDefault();
 
   const date = new Date(addEventForm.date.value);
   let formattedDate = date.toISOString();
 
   try {
     const response = await fetch(API_URL, {
-      method: "POST", // send request post to the API
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         cohortId: 219,
